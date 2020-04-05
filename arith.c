@@ -236,7 +236,7 @@ postfix[j] = '\0';
 
 
 
-int buildTree(char postfix[]){
+int eval(char postfix[]){
 
   int i = 0;
   int j = 0;
@@ -306,7 +306,7 @@ int val = 0;
     //puts(infix);
     parse(infix,postfix);
 
-   val = buildTree(postfix);
+   val = eval(postfix);
     //printf("%s\n  ",postfix);
     printf("Answer is %d\n\n\t",val);
 
