@@ -19,8 +19,12 @@ typedef struct Node {
     struct Node *left, *right;
 } Node;
 
-Node treevals[MAX];
-int node_top = -1;
+typedef struct tree_Node{
+    char data;
+    struct tree_Node *left, *right;
+}ast;
+ast *AST ; // this is before
+
 /*
 
 
@@ -29,21 +33,6 @@ int node_top = -1;
 
 
 */
-
-void pushRPN( Node data){
-  if(node_top>MAX-1){
-    printf("\nStack Overflow for RPN");
-  }
-  else {
-    node_top = node_top - 1;
-    treevals[node_top] = data;
-  }
-  //struct node
-
-}
-
-
-
 
 
 
@@ -221,6 +210,37 @@ postfix[j] = '\0';
 
 void buildTree(char postfix[]){
 
+  int i = 0;
+  int j = 0;
+  char *a = postfix;
+  char x;
+  char y;
+
+
+
+for(int i=0;a[i]!='\0';i++){
+    printf("\t%c\n\n",a[i]);
+    if(isdigit(a[i])){
+      push(a[i]-'0');
+
+    }
+    else if(a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i]=='^') {
+      AST = malloc(sizeof(ast));
+      x = pop();
+      y = pop();
+      AST->data = a[i];
+      AST->right = malloc(sizeof(ast));
+      AST->left = malloc(sizeof(ast));
+      (AST->right)->data = x;
+      (AST->left)->data = y;
+
+
+
+    }
+
+  }
+
+
 
 }
 
@@ -246,8 +266,9 @@ int val = 0;
   	//printf("%s\n", expression);
     //puts(infix);
     parse(infix,postfix);
-
-    printf("%s\n  ",postfix);
+    top = -1;
+   buildTree(postfix);
+    //printf("%s\n  ",postfix);
 
 
 
