@@ -9,9 +9,11 @@
 #define MAX 100	/*maximum no. of characters*/
 
 char stack[MAX];
+int  intStack[MAX];
 int top = -1;
 
 int stack_int;
+int int_top = -1;
 
 
 typedef struct Node {
@@ -34,6 +36,32 @@ ast *AST ; // this is before
 
 */
 
+void pushVal(int val){
+  if(int_top >= MAX-1){
+		printf("\nStack Overflow.");
+	}
+	else{
+		int_top++;
+		intStack[int_top] = val;
+	}
+
+}
+
+int popVal(){
+  int val;
+  if(int_top < 0){
+    printf("stack under flow: invalid infix expression(numbers)");
+		getchar();
+    exit(1);
+  }
+  else{
+    val = intStack[int_top];
+    int_top--;
+    return val;
+
+	}
+
+}
 
 
 void push(char item){
@@ -51,7 +79,7 @@ char pop(){
 	char item ;
 
 	if(top <0){
-		printf("stack under flow: invalid infix expression");
+		printf("stack under flow: invalid infix expression(character)");
 		getchar();
 		/* underflow may occur for invalid expression */
 		/* where ( and ) are not matched */
@@ -208,40 +236,51 @@ postfix[j] = '\0';
 
 
 
-void buildTree(char postfix[]){
+int buildTree(char postfix[]){
 
   int i = 0;
   int j = 0;
   char *a = postfix;
   char x;
   char y;
-
-
+  int m;
+  int n;
+int answer = 0;
 
 for(int i=0;a[i]!='\0';i++){
-    printf("\t%c\n\n",a[i]);
+    //printf("\t%c\n\n",a[i]);
     if(isdigit(a[i])){
-      push(a[i]-'0');
+      pushVal(a[i]-'0');
 
     }
-    else if(a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i]=='^') {
-      AST = malloc(sizeof(ast));
-      x = pop();
-      y = pop();
-      AST->data = a[i];
-      AST->right = malloc(sizeof(ast));
-      AST->left = malloc(sizeof(ast));
-      (AST->right)->data = x;
-      (AST->left)->data = y;
+    else if(a[i] == '+'){
+      m = popVal();
+      n = popVal();
+      pushVal(n+m);
+      }
+      else if(a[i] == '-'){
+        m = popVal();
+        n = popVal();
+        pushVal(n-m);
+        }
+      else if(a[i] == '*'){
+          m = popVal();
+          n = popVal();
+          pushVal(n*m);
+        }
+        else if(a[i] == '^'){
+          m = popVal();
+          n = popVal();
+          pushVal(pow(n,m));
+          }
 
 
 
-    }
-
-  }
 
 
-
+}
+answer = popVal();
+return answer;
 }
 
 
@@ -266,10 +305,10 @@ int val = 0;
   	//printf("%s\n", expression);
     //puts(infix);
     parse(infix,postfix);
-    top = -1;
-   buildTree(postfix);
-    //printf("%s\n  ",postfix);
 
+   val = buildTree(postfix);
+    //printf("%s\n  ",postfix);
+    printf("Answer is %d\n\n\t",val);
 
 
 
