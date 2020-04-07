@@ -29,7 +29,8 @@ public class ArithParser{
     //exprStack.push("(");
 
     String popped;
-
+    //I add brackets in front and at the end of the expression so that the stack
+    // does not pop when nothing has been pushed.
     exprStack.push("(");
 
 
@@ -76,7 +77,7 @@ public class ArithParser{
   return parsed;
 }
 
-
+//Checks for precedence when generating the Reverse polish notation.
 int precedence(String symbol){
 
 
@@ -96,7 +97,7 @@ int precedence(String symbol){
 
 }
 
-
+//Checks if a string is an operator
 boolean is_operator(String symbol){
   if(symbol.equals("^") || symbol.equals("*") || symbol.equals("+") || symbol.equals("-")){
     return true;
@@ -108,6 +109,7 @@ boolean is_operator(String symbol){
 
 }
 
+//Checks if a string is a number or not.
 boolean isNumeric(String val){
 boolean answer = false;
 try{
@@ -120,6 +122,8 @@ try{
 
   return answer;
 }
+
+//Evaluates the Reverse polish notation generated.
 
 int eval(String RPN[]){
   int firstnumber =0;
