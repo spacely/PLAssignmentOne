@@ -1,7 +1,15 @@
+/*
+*
+* Code base for Programming Assignment one. To build an ARITH ArithParser
+* Author: Saheed Adepoju. UC Santa Cruz.
+*/
+
+
 import java.util.*;
 import java.lang.Math;
+import java.io.*;
 
-
+//Arith Class that captures all methods such as parse and eval.
 
 public class ArithParser{
   private String tokens[];
@@ -11,6 +19,7 @@ public class ArithParser{
 
   private List<String> reverse_notation_List = new ArrayList<String>();
 
+// constructor that accepts toko
   public ArithParser(String tokens[]){
 
     this.tokens = tokens;
@@ -163,23 +172,38 @@ return numbersStack.pop();
 
 
     public static void main(String args[]){
-      System.out.println("Enter an Arith expression");
+      //System.out.println("Enter an Arith expression");
+      //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      // sb;
       Scanner scanner = new Scanner(System.in);
-      StringBuilder sb = new StringBuilder(scanner.nextLine());
+      try {
+
+
+      while(scanner.hasNextLine()){
+
+      StringBuilder sb =  new StringBuilder(scanner.nextLine());
+
+
+
+      //StringBuilder sb = new StringBuilder(scanner.nextLine());
       sb.append(" ");
       sb.append(")");
       int calculated_value = 0;
       String tokens[] = sb.toString().split(" ");
       //String tokens[] = scanner.nextLine().split(" ");
       //System.out.println(Arrays.asList(tokens));
-      scanner.close();
+
 
       ArithParser arith = new ArithParser(tokens);
       String RPN[] = arith.parse();
       calculated_value = arith.eval(RPN);
-      System.out.println("The answer is "+calculated_value);
+      System.out.println(calculated_value);
 
-
+    }
+    }catch(Exception e){
+      System.out.println("Error " + e.getMessage());
+    }
+    scanner.close();
     }
 
 
